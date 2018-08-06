@@ -1,7 +1,8 @@
 group 'learning'
 version '1.0-SNAPSHOT'
 
-apply plugin: 'java'
+apply plugin: 'war'
+apply from: 'https://raw.github.com/gretty-gradle-plugin/gretty/master/pluginScripts/gretty.plugin'
 
 sourceCompatibility = 1.8
 
@@ -9,14 +10,28 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
 dependencies {
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-build <<{
+build << {
     println "Done!"
 }
-jar{
-    manifest{
-        attributes 'Main-Class' : 'learning.gradle.App'
+jar {
+    manifest {
+        attributes 'Main-Class': 'learning.gradle.App'
     }
 }
